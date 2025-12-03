@@ -4,9 +4,8 @@ class Fish:
         self.pos_y = pos_y
         self.breed_time = breed_time
 
-    def move(self, new_x, new_y):
-        self.pos_x = new_x
-        self.pos_y = new_y
+    def move(self, grid):
+        pass
 
     def  get_available_spaces(self):
         pass
