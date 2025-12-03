@@ -27,6 +27,14 @@ class World:
                 else:
                     display[y][x] = " "
         return display
+    
+     def new_tuna(self, tuna: Tuna):
+        if not self.is_position_valid(x=tuna.x, y=tuna.y):
+            return None
+        if len(self.tunas) >= (self.grid_width * self.grid_height):
+            return None
+        self.tunas.append(tuna)
+        self.grid[fish.y][fish.x] = fish
         
     def is_position_valid(self, x: int, y: int) -> bool:
         if x >= self.grid_width or y >= self.grid_height:
