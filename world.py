@@ -1,11 +1,14 @@
+import random
+
 class World:
     def __init__(self, height: int, width: int) -> None:
         self.grid_height: int = height
         self.grid_width: int = width
         self.grid = self.init_grid()
         self.chronons: int = 0
-        self.tunas = []
-        self.sharks = []
+        self.fishes: list[Fish] = []
+        self.tunas: list[Tuna] = []
+        self.sharks: list[Shark] = []
         
     def init_grid(self) -> list[list[str]]:
         # We use _ here because we won't use this variable for anything else in the entire code
@@ -24,5 +27,14 @@ class World:
                 else:
                     display[y][x] = " "
         return display
+        
+    def is_position_valid(self, x: int, y: int) -> bool:
+        if x >= self.grid_width or y >= self.grid_height:
+            return False
+        else:
+            if self.grid[y][x] == " ":
+                return True
+            else:
+                return False    
     
     
