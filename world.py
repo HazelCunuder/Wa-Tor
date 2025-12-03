@@ -23,7 +23,7 @@ class World:
                 if isinstance(cell, Shark):
                     display[y][x] = cell.emoji_shark
                 elif isinstance(cell, Tuna):
-                    display[y][x] = cell.emoji_fish
+                    display[y][x] = cell.emoji_tuna
                 else:
                     display[y][x] = " "
         return display
@@ -34,7 +34,7 @@ class World:
         if len(self.tunas) >= (self.grid_width * self.grid_height):
             return None
         self.tunas.append(tuna)
-        self.grid[fish.y][fish.x] = fish
+        self.grid[tuna.y][tuna.x] = tuna
         
     def is_position_valid(self, x: int, y: int) -> bool:
         if x >= self.grid_width or y >= self.grid_height:
@@ -45,4 +45,13 @@ class World:
             else:
                 return False    
     
-    
+    def randomly_place_fishes(self, nb_sharks: int, nb_tunas: int):
+        for _ in range(nb_sharks):
+            while True:
+                x = random.randrange(self.grid_width)
+                y = random.randrange(self.grid_height)
+                
+                if self.is_position_valid(x=x,y=y):
+                    shark = Shark(x, y)
+                    self.new_shark(shark)
+                    break
