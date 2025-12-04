@@ -1,4 +1,7 @@
 import random
+from entities.fish import Fish
+from entities.tuna import Tuna
+from entities.shark import Shark
 
 class World:
     def __init__(self, height: int, width: int) -> None:
@@ -23,18 +26,18 @@ class World:
                 if isinstance(cell, Shark):
                     display[y][x] = cell.emoji_shark
                 elif isinstance(cell, Tuna):
-                    display[y][x] = cell.emoji_tuna
+                    display[y][x] = cell.emoji
                 else:
                     display[y][x] = " "
         return display
     
-     def new_tuna(self, tuna: Tuna):
-        if not self.is_position_valid(x=tuna.x, y=tuna.y):
+    def new_tuna(self, tuna: Tuna):
+        if not self.is_position_valid(x=tuna.pos_x, y=tuna.pos_y):
             return None
         if len(self.tunas) >= (self.grid_width * self.grid_height):
             return None
         self.tunas.append(tuna)
-        self.grid[tuna.y][tuna.x] = tuna
+        self.grid[tuna.pos_y][tuna.pos_x] = tuna
         
     def is_position_valid(self, x: int, y: int) -> bool:
         if x >= self.grid_width or y >= self.grid_height:
@@ -55,3 +58,14 @@ class World:
                     shark = Shark(x, y)
                     self.new_shark(shark)
                     break
+        for _ in range(nb_tunas):
+            while True:
+                x = random.randrange(self.grid_width)
+                y = random.randrange(self.grid_height)
+                
+                if self.is_position_valid(x=x, y=y):
+                    tuna = Tuna(x, y)
+                    self.new_tuna(tuna)
+                    break
+    
+    
