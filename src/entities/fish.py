@@ -20,7 +20,7 @@ class Fish:
             return (self.pos_x, self.pos_y)
         return random.choice(available_moves)
     
-    def  get_available_spaces(self, grid: list[list]) -> list[tuple[int, int]]:
+    def  get_available_spaces(self, grid: list[list[Fish | None]]) -> list[tuple[int, int]]:
         height:  int = len(grid)
         width:  int = len(grid[0])
         available:  list[tuple[int, int]] = []
