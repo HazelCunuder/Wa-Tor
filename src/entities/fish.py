@@ -9,7 +9,7 @@ class Fish:
         self.is_alive: bool = True
         self.reproduction_time: int = 3
 
-    def move(self, grid:  list[list]) -> tuple[int, int]:
+    def move(self, grid:  list[list[Fish | None]]) -> tuple[int, int]:
         available_moves : list[tuple[int, int]] = self.get_available_spaces(grid)
         move: tuple[int, int] = self.choose_move(available_moves)
         self.pos_x, self.pos_y = move
