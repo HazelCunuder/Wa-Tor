@@ -1,7 +1,7 @@
 import random
 from entities.fish import Fish
 from entities.tuna import Tuna
-# from entities.shark import Shark
+from entities.shark import Shark
 
 class World:
     def __init__(self, height: int, width: int) -> None:
@@ -10,8 +10,8 @@ class World:
         self.grid = self.init_grid()
         self.chronons: int = 0
         self.fishes: list[Fish] = []
-        self.tunas: list[Fish] = []
-        # self.sharks: list[Shark] = []
+        self.tunas: list[Tuna] = []
+        self.sharks: list[Shark] = []
         
     def init_grid(self) -> list[list[Fish | None]]:
         # We use _ here because we won't use this variable for anything else in the entire code
@@ -23,8 +23,8 @@ class World:
         for y in range(len(self.grid)):
             for x in range(len(self.grid[0])):
                 cell = self.grid[y][x]
-                #if isinstance(cell, Shark):
-                    #display[y][x] = cell.emoji_shark
+                if isinstance(cell, Shark):
+                    display[y][x] = cell.emoji_shark
                 if isinstance(cell, Tuna):
                     display[y][x] = cell.emoji_tuna
                 else:
@@ -39,6 +39,14 @@ class World:
         self.tunas.append(tuna)
         self.grid[tuna.pos_y][tuna.pos_x] = tuna
         
+    def new_shark(self, shark: Shark):
+        if not self.is_position_valid(x=shark.pos_x, y=shark.pos_y):
+            return None
+        if len(self.tunas) >= (self.grid_width * self.grid_height):
+            return None
+        self.sharks.append(shark)
+        self.grid[shark.pos_y][shark.pos_x] = shark
+        
     def is_position_valid(self, x: int, y: int) -> bool:
         if x >= self.grid_width or y >= self.grid_height:
             return False
@@ -49,15 +57,15 @@ class World:
                 return False    
     
     def randomly_place_fishes(self, nb_sharks: int, nb_tunas: int):
-        # for _ in range(nb_sharks):
-        #     while True:
-        #         x = random.randrange(self.grid_width)
-        #         y = random.randrange(self.grid_height)
-                
-        #         if self.is_position_valid(x=x,y=y):
-        #             shark = Shark(x, y)
-        #             self.new_shark(shark)
-        #             break
+        for _ in range(nb_sharks):
+            while True:
+                x = random.randrange(self.grid_width)
+                y = random.randrange(self.grid_height)
+              
+                if self.is_position_valid(x=x,y=y):
+                    shark = Shark(x, y)
+                    self.new_shark(shark)
+                    break
         for _ in range(nb_tunas):
             while True:
                 x = random.randrange(self.grid_width)
@@ -69,7 +77,20 @@ class World:
                     break
     
     def run_simulation(self):
-        new_tunas: list[Fish] = []
+        new_sharks: list[Shark] = []
+        new_tunas: list[Tuna] = []
+        
+        for shark in self.sharks:
+            if shark:
+                old_x = shark.pos_x
+                old_y = shark.pos_y
+                new_pos = shark.move(self.grid)
+                self.grid[old_y][old_x] = None
+                self.grid[new_pos[1]][new_pos[0]] = shark
+                baby_shark = shark.reproduce(pos_x= old_x, pos_y= old_y)
+                if baby_shark and self.is_position_valid(x= baby_shark.pos_x, y= baby_shark.pos_y):
+                    self.grid[baby_shark.pos_y][baby_shark.pos_x] = baby_shark
+                    new_sharks.append(baby_shark)
       
         for tuna in self.tunas:
             if tuna:
