@@ -1,24 +1,23 @@
 from networkx import neighbors
-
+import random
 
 class Fish:
     def __init__(self, pos_x: int , pos_y: int)-> None:
         self.pos_x: int = pos_x
         self.pos_y: int = pos_y
 
-    def move(self, grid):
-        move: list = self.get_available_spaces(grid)
+    def move(self, grid: list) -> tuple:
+        available_moves : list = self.get_available_spaces(grid)
+        move: tuple = self.choose_move(available_moves)
+        self.pos_x, self.pos_y = move
+        return move
 
-        print(move)
-        pass
-
-    def choose_move(self, available_moves):
+    def choose_move(self, available_moves: list) -> tuple:
         if not available_moves:
-            return None
-        import random
+            return (self.pos_x, self.pos_y)
         return random.choice(available_moves)
     
-    def  get_available_spaces(self, grid):
+    def  get_available_spaces(self, grid: list) -> list:
         height:  int = len(grid)
         width:  int = len(grid[0])
         available:  list = []
@@ -37,12 +36,3 @@ class Fish:
 
     def reproduce(self):
         pass
-
-fish = Fish(1, 1)
-grid = [
-    [None, None, None],
-    [None, None, None],
-    [None, None, None]
-]
-
-fish.move(grid)
