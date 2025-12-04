@@ -1,4 +1,4 @@
-from fish import Fish
+from .fish import Fish
 
 class Tuna (Fish):
     def __init__(self, pos_x: int, pos_y: int)-> None:

@@ -1,5 +1,6 @@
-import random
 from __future__ import annotations
+from .tuna import Tuna
+import random
 
 class Fish:
     def __init__(self, pos_x: int , pos_y: int)-> None:
@@ -33,14 +34,14 @@ class Fish:
         ]
 
         for (x, y) in neighbors:
-            if grid[y][x] == " ":
+            if grid[y][x] is None :
                 available.append((x, y))
         return available
 
     def reproduce(self, pos_x: int, pos_y: int) -> Fish | None:
         if self.reproduction_time <= 0:
             self.reproduction_time = 3
-            return Fish(pos_x, pos_y)
+            return Tuna(pos_x, pos_y)
         
         self.reproduction_time -= 1
         return None
