@@ -5,6 +5,9 @@ class Fish:
     def __init__(self, pos_x: int , pos_y: int)-> None:
         self.pos_x: int = pos_x
         self.pos_y: int = pos_y
+        self.emoji_tuna: str ="🐟"
+        self.is_alive: bool = True
+        self.reproduction_time: int = 3
 
     def move(self, grid: list) -> tuple:
         available_moves : list = self.get_available_spaces(grid)
@@ -30,9 +33,14 @@ class Fish:
         ]
 
         for (x, y) in neighbors:
-            if grid[y][x] is None:
+            if grid[y][x] is " ":
                 available.append((x, y))
         return available
 
-    def reproduce(self):
-        pass
+    def reproduce(self, pos_x: int, pos_y: int) -> object | None:
+        if self.reproduction_time <= 0:
+            self.reproduction_time = 3
+            return Fish(pos_x, pos_y)
+        
+        self.reproduction_time -= 1
+        return None
