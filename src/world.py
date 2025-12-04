@@ -13,12 +13,12 @@ class World:
         self.tunas: list[Tuna] = []
         self.sharks: list[Shark] = []
         
-    def init_grid(self) -> list[list[str]]:
+    def init_grid(self) -> list[list[Fish | None]]:
         # We use _ here because we won't use this variable for anything else in the entire code
-        return [[" " for _ in range(self.grid_width)] for _ in range(self.grid_height)]
+        return [[None for _ in range(self.grid_width)] for _ in range(self.grid_height)]
     
     def display_grid(self) -> list[list[str]]:
-        display = self.init_grid()
+        display = [[" " for _ in range(self.grid_width)] for _ in range(self.grid_height)]
         
         for x in range(len(self.grid)):
             for y in range(len(self.grid[0])):
@@ -26,7 +26,7 @@ class World:
                 if isinstance(cell, Shark):
                     display[y][x] = cell.emoji_shark
                 elif isinstance(cell, Tuna):
-                    display[y][x] = cell.emoji
+                    display[y][x] = cell.emoji_tuna
                 else:
                     display[y][x] = " "
         return display
@@ -43,7 +43,7 @@ class World:
         if x >= self.grid_width or y >= self.grid_height:
             return False
         else:
-            if self.grid[y][x] == " ":
+            if self.grid[y][x] == None:
                 return True
             else:
                 return False    
@@ -68,4 +68,18 @@ class World:
                     self.new_tuna(tuna)
                     break
     
-    
+    def run_simulation(self):
+        new_tunas: list[Tuna] = []
+        
+        for tuna in self.tunas:
+            if tuna:
+                tuna_x = tuna.pos_x
+                tuna_y = tuna.pos_y
+                tuna.move(self.grid)
+                baby_tuna: Fish = tuna.reproduce(x = tuna_x, y = tuna_y)
+                if baby_tuna and self.is_position_valid(x = baby_tuna.pos_x, y = baby_tuna.pos_y):
+                    self.grid[baby_tuna.pos_y][baby_tuna.pos_x] = baby_tuna
+                    new_tunas.append(baby_tuna)        
+        
+        self.tunas.extend[new_tunas]
+        self.chronons += 1
