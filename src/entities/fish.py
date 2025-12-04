@@ -1,5 +1,4 @@
 from __future__ import annotations
-from .tuna import Tuna
 import random
 
 class Fish:
@@ -39,9 +38,4 @@ class Fish:
         return available
 
     def reproduce(self, pos_x: int, pos_y: int) -> Fish | None:
-        if self.reproduction_time <= 0:
-            self.reproduction_time = 3
-            return Tuna(pos_x, pos_y)
-        
-        self.reproduction_time -= 1
-        return None
+        pass
