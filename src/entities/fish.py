@@ -5,9 +5,6 @@ class Fish:
     def __init__(self, pos_x: int , pos_y: int)-> None:
         self.pos_x: int = pos_x
         self.pos_y: int = pos_y
-        self.emoji_tuna: str ="🐟"
-        self.is_alive: bool = True
-        self.reproduction_time: int = 3
 
     def move(self, grid:  list[list[Fish | None]]) -> tuple[int, int]:
         available_moves : list[tuple[int, int]] = self.get_available_spaces(grid)
