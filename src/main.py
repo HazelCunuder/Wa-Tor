@@ -10,6 +10,8 @@ input_max_chronons: int = int(input("How many chronons long should the experimen
 planet: World = World(height= input_height, width=input_width)
 
 planet.randomly_place_fishes(nb_sharks = input_sharks, nb_tunas = input_tunas)
+print("Step 0: ")
+planet.print_grid_ascii()
 
 step: int = 1
 
