@@ -57,6 +57,7 @@ class World:
                 return False    
     
     def randomly_place_fishes(self, nb_sharks: int, nb_tunas: int):
+        
         for _ in range(nb_sharks):
             while True:
                 x = random.randrange(self.grid_width)
@@ -66,6 +67,7 @@ class World:
                     shark = Shark(x, y)
                     self.new_shark(shark)
                     break
+                
         for _ in range(nb_tunas):
             while True:
                 x = random.randrange(self.grid_width)
@@ -81,7 +83,7 @@ class World:
         new_tunas: list[Tuna] = []
         
         for shark in self.sharks:
-            if shark:
+            if shark and shark.is_alive:
                 old_x = shark.pos_x
                 old_y = shark.pos_y
                 new_pos = shark.move(self.grid)
@@ -91,9 +93,14 @@ class World:
                 if baby_shark and self.is_position_valid(x= baby_shark.pos_x, y= baby_shark.pos_y):
                     self.grid[baby_shark.pos_y][baby_shark.pos_x] = baby_shark
                     new_sharks.append(baby_shark)
-      
+            if shark and not shark.is_alive:
+                old_x = shark.pos_x
+                old_y = shark.pos_y
+                self.grid[old_y][old_x] = None
+                self.sharks.remove(shark)
+
         for tuna in self.tunas:
-            if tuna:
+            if tuna and tuna.is_alive:
                 old_x = tuna.pos_x
                 old_y = tuna.pos_y
                 new_pos = tuna.move(self.grid)
@@ -102,8 +109,14 @@ class World:
                 baby_tuna = tuna.reproduce(pos_x = old_x, pos_y = old_y)
                 if baby_tuna and self.is_position_valid(x = baby_tuna.pos_x, y = baby_tuna.pos_y):
                     self.grid[baby_tuna.pos_y][baby_tuna.pos_x] = baby_tuna
-                    new_tunas.append(baby_tuna)        
+                    new_tunas.append(baby_tuna)
+            if tuna and not tuna.is_alive:
+                old_x = tuna.pos_x
+                old_y = tuna.pos_y
+                self.grid[old_y][old_x] = None
+                self.tunas.remove(tuna)
       
+        self.sharks.extend(new_sharks)
         self.tunas.extend(new_tunas)
         self.chronons += 1
         
