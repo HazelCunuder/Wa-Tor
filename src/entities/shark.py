@@ -13,23 +13,29 @@ class Shark(Fish):
     
     def choose_move(self, available_moves: list[tuple[int, int]], grid: list[list[Fish | None]]) -> tuple[int, int]:
         if not available_moves:
-            return super().choose_move(available_moves)
-        
-        if isinstance(grid[available_moves[0][1]][available_moves[0][0]], Tuna):
-            is_fish = random.choice(available_moves)
-            grid[is_fish[1]][is_fish[0]].is_alive = False
-            self.energy += 2
-            return is_fish
+            return super().choose_move(available_moves, grid)
 
-        return super().choose_move(available_moves)
-    
+        if isinstance(grid[available_moves[0][1]][available_moves[0][0]], Tuna):
+            x : int
+            y : int
+            x, y = random.choice(available_moves)
+            cell : Fish | None = grid[y][x]
+            if isinstance(cell, Tuna):
+                cell.is_alive = False
+            self.energy += 2
+            return (x, y)
+
+        return super().choose_move(available_moves, grid)
+
     def get_available_spaces(self, grid: list[list[Fish | None]]) -> list[tuple[int, int]]:
-        available:  list[tuple[int, int]] = []
-        neighbors:  list[tuple[int, int]] = self.get_neighbors(grid)
-        
+        available: list[tuple[int, int]] = []
+        neighbors: list[tuple[int, int]] = self.get_neighbors(grid)
+    
         for (x, y) in neighbors:
-            if  isinstance(grid[y][x], Tuna) and grid[y][x].is_alive:
+            cell : Fish | None = grid[y][x]
+            if isinstance(cell, Tuna) and cell.is_alive:
                 available.append((x, y))
+
         if available:
             return available
         else:
