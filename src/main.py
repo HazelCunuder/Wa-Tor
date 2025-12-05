@@ -1,26 +1,26 @@
 from world import World
+from simulation import Simulation
 from entities import *
 
 input_height: int = int(input("Enter a height: "))
 input_width: int = int(input("Enter a width: "))
 input_tunas: int = int(input("How many tunas in the simulation? "))
 input_sharks: int = int(input("How many sharks in the simulation? "))
-input_max_chronons: int = int(input("How many chronons long should the experiment be? "))
 
 planet: World = World(height= input_height, width=input_width)
 
 planet.randomly_place_fishes(nb_sharks = input_sharks, nb_tunas = input_tunas)
-print("Step 0: ")
-planet.print_grid_ascii()
 
-step: int = 1
+sim = Simulation(planet)
 
-limit: int = input_max_chronons
+print("Initial state: ")
+sim.print_grid_ascii()
 
-while planet.chronons < limit:
-    planet.run_simulation()
-    print("\n")
-    print(f"Step {step}:")
+step = 0
+
+while not sim.is_simulation_over():
     step += 1
-    planet.print_grid_ascii()
+    print(f"Step {step}:")
+    sim.run_simulation()
+    sim.print_grid_ascii()
     
