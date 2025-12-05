@@ -44,4 +44,4 @@ class Shark(Fish):
             return Shark(pos_x, pos_y)
         
         self.reproduction_time -= 1
-        return None
+        return None 
