@@ -25,7 +25,7 @@ class World:
                 cell = self.grid[y][x]
                 if isinstance(cell, Shark):
                     display[y][x] = cell.emoji_shark
-                if isinstance(cell, Tuna):
+                elif isinstance(cell, Tuna):
                     display[y][x] = cell.emoji_tuna
                 else:
                     display[y][x] = " "
