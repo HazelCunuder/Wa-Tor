@@ -55,7 +55,7 @@ class World:
                 y = random.randrange(self.grid_height)
               
                 if self.is_position_valid(x=x,y=y):
-                    shark = Shark(x, y)
+                    shark = Shark(x, y, self.config)
                     self.new_shark(shark)
                     break
                 
@@ -65,7 +65,7 @@ class World:
                 y = random.randrange(self.grid_height)
                 
                 if self.is_position_valid(x=x, y=y):
-                    tuna = Tuna(x, y)
+                    tuna = Tuna(x, y, self.config)
                     self.new_tuna(tuna)
                     break
     
