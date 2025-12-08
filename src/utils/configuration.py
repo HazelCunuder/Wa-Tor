@@ -81,7 +81,7 @@ class ConfigurationWator:
 
     def ask_user_input(self, prompt: str, default_value: int) -> int :
         
-        while Truerue:
+        while True:
             user_input = input(f"[prompt](defaut: {default_calue})")
             if user_input.strip() == "":
                 return default_value
