@@ -13,14 +13,4 @@ planet.randomly_place_fishes(nb_sharks = input_sharks, nb_tunas = input_tunas)
 
 sim = Simulation(planet)
 
-print("Initial state: ")
-sim.print_grid_ascii()
-
-step = 0
-
-while not sim.is_simulation_over():
-    step += 1
-    print(f"Step {step}:")
-    sim.run_simulation()
-    sim.print_grid_ascii()
-    
+sim.run_simulation(planet)
