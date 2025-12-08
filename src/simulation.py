@@ -58,3 +58,14 @@ class Simulation:
             return True
         
         return False
+    
+    def get_results(self) -> dict:
+        results = {
+            "grid_height": self.world.grid_height,
+            "grid_width": self.world.grid_width,
+            "chronons_reached": self.world.chronons,
+            "tunas_left": len(self.world.tunas),
+            "sharks_left": len(self.world.sharks)
+        }
+        
+        return results
