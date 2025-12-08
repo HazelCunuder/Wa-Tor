@@ -1,10 +1,12 @@
 from __future__ import annotations
+from utils.configuration import ConfigurationWator
 import random
 
 class Fish:
-    def __init__(self, pos_x: int , pos_y: int)-> None:
+    def __init__(self, pos_x: int , pos_y: int, config: ConfigurationWator)-> None:
         self.pos_x: int = pos_x
         self.pos_y: int = pos_y
+        self.config = config 
 
     def move(self, grid:  list[list[Fish | None]]) -> tuple[int, int]:
         available_moves : list[tuple[int, int]] = self.get_available_spaces(grid)
