@@ -10,24 +10,24 @@ class ConfigurationWator:
         self.recovery_energy_shark = 2
 
 
-        self.grid_width = self.ask_user_input ("enter your width grid",self.grid_width)
-        self.grid_height = self.ask_user_input ("enter your height grid",self.grid_height)
-        self.nb_tuna = self.ask_user_input ("enter your number's tuna",self.nb_tuna )
-        self.nb_shark = self.ask_user_input ("enter your number's shark",self.nb_shark )
+        self.grid_width = self.ask_user_input ("enter your grid width",self.grid_width)
+        self.grid_height = self.ask_user_input ("enter your grid height",self.grid_height)
+        self.nb_tuna = self.ask_user_input ("enter your number of tuna",self.nb_tuna )
+        self.nb_shark = self.ask_user_input ("enter your number of shark ",self.nb_shark )
         self.time_breed_tuna = self.ask_user_input ("enter the time of breed for the tuna",self.time_breed_tuna )
         self.times_breed_shark = self.ask_user_input ("enter the time of breed for the shark",self.times_breed_shark)
-        self.energy_shark = self.ask_user_input ("enter the initial energy for the shark",self.energy_shark)
-        self.recovery_energy_shark = self.ask_user_input ("enter the recovery energy for tuna",self.recovery_energy_shark)
+        self.energy_shark = self.ask_user_input ("enter the initial energy of shark",self.energy_shark)
+        self.recovery_energy_shark = self.ask_user_input ("Enter the energy gained by sharks when eating tuna",self.recovery_energy_shark)
 
         self.grid_width = self.ask_user_input(
-            "Largeur de la grille",
+            "grid width",
             self.grid_width,
             min_value=5,
             max_value=100
         )
 
         self.grid_height = self.ask_user_input(
-            "Hauteur de la grille",
+            "grid height",
             self.grid_height,
             min_value=5,
             max_value=100
@@ -75,7 +75,7 @@ class ConfigurationWator:
             max_value=20
         )
 
-        # Résumé final
+       
         self.display_summary()
 
 
@@ -93,11 +93,11 @@ class ConfigurationWator:
                 continue
 
             if min_value is not None and value < min_value:
-                print(f"Valeur trop petite (minimum : {min_value}).")
+                print(f"Value too small (minimum : {min_value}).")
                 continue
 
             if max_value is not None and value > max_value:
-                print(f"Valeur trop grande (maximum : {max_value}).")
+                print(f"Value too high (maximum : {max_value}).")
                 continue
 
             return value
@@ -105,12 +105,12 @@ class ConfigurationWator:
 
 def display_summary(self):
     print("\n===== CONFIGURATION =====")
-    print(f"Grille : {self.grid_width} x {self.grid_height}")
-    print(f"Thons : {self.nb_tuna}")
-    print(f"Requins : {self.nb_shark}")
-    print(f"Reproduction thons : {self.time_breed_tuna}")
-    print(f"Reproduction requins : {self.times_breed_shark}")
-    print(f"Énergie requins : {self.energy_shark}")
-    print(f"Énergie gagnée : {self.recovery_energy_shark}")
+    print(f"Grid : {self.grid_width} x {self.grid_height}")
+    print(f"Tunas : {self.nb_tuna}")
+    print(f"sharks : {self.nb_shark}")
+    print(f"Tuna breeding time : {self.time_breed_tuna}")
+    print(f"Shark breeding time: {self.times_breed_shark}")
+    print(f"Énergy shark : {self.energy_shark}")
+    print(f"Énergy gained : {self.recovery_energy_shark}")
     print("=========================\n")
 
