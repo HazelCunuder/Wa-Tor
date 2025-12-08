@@ -1,13 +1,14 @@
 from __future__ import annotations
 from .fish import Fish
 from .tuna import Tuna
+from utils.configuration import ConfigurationWator
 import random
 
 class Shark(Fish):
-    def __init__(self, pos_x: int, pos_y: int)-> None:
-        super().__init__(pos_x, pos_y)
-        self.energy: int = 5
-        self.reproduction_time: int = 5
+    def __init__(self, pos_x: int, pos_y: int, config: ConfigurationWator)-> None:
+        super().__init__(pos_x, pos_y, config)
+        self.energy: int = config.energy_shark
+        self.reproduction_time: int = config.times_breed_shark
         self.emoji_shark: str ="🦈"
         self.is_alive: bool = True
     
@@ -22,7 +23,7 @@ class Shark(Fish):
             cell : Fish | None = grid[y][x]
             if isinstance(cell, Tuna):
                 cell.is_alive = False
-            self.energy += 2
+            self.energy += self.config.recovery_energy_shark
             return (x, y)
 
         return super().choose_move(available_moves, grid)
@@ -46,8 +47,8 @@ class Shark(Fish):
         
     def reproduce(self, pos_x: int, pos_y: int) -> Shark | None:
         if self.reproduction_time <= 0:
-            self.reproduction_time = 5
-            return Shark(pos_x, pos_y)
+            self.reproduction_time = self.config.times_breed_shark
+            return Shark(pos_x, pos_y, self.config)
         
         self.reproduction_time -= 1
         return None 
