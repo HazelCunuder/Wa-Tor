@@ -2,6 +2,7 @@ import random
 from entities.fish import Fish
 from entities.tuna import Tuna
 from entities.shark import Shark
+from utils.configuration import ConfigurationWator
 
 class World:
     def __init__(self, height: int, width: int) -> None:
@@ -13,6 +14,7 @@ class World:
         self.fishes: list[Fish] = []
         self.tunas: list[Tuna] = []
         self.sharks: list[Shark] = []
+        self.config: ConfigurationWator = ConfigurationWator()
         
     def init_grid(self) -> list[list[Fish | None]]:
         # We use _ here because we won't use this variable for anything else in the entire code
@@ -70,7 +72,6 @@ class World:
     def world_cycle(self):
         new_sharks: list[Shark] = []
         new_tunas: list[Tuna] = []    
-    
     
         for shark in self.sharks:
             if shark and shark.is_alive:
