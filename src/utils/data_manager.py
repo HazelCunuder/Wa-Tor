@@ -4,13 +4,25 @@ from configparser import ConfigParser
 from pathlib import Path
 
 class DataManager:
-    def __init__(self, filename='database.ini', section='postgresql') -> None:
-        pass
+    def __init__(self) -> None:
+        self.filename = Path(__file__).parent / "database.ini"
+        self.config = ConfigParser()
+        self.host = self.config["postgresql"]["host"]
+        self.database = self.config["postgresql"]["database"]
+        self.user = self.config["postgresql"]["user"]
+        self.password = self.config["postgresql"]["password"]
     
-    def connect_to_db(self):
-        pass
+    def connect_to_db(self) -> None:
+        self.connection = psycopg2.connect(
+            host= self.host,
+            database=self.database, 
+            user=self.user, 
+            password=self.password
+        )
+        
+        self.cursor = self.connection.cursor()
     
-    def save_data(self):
+    def save_sim_data(self, results_dict: dict):
         pass
     
     def get_time(self):
