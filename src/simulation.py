@@ -1,5 +1,4 @@
-from entities.tuna import Tuna
-from entities.shark import Shark
+from entities.fish import Fish
 from world import World
 
 class Simulation:
@@ -12,10 +11,8 @@ class Simulation:
         for y in range(len(self.world.grid)):
             for x in range(len(self.world.grid[0])):
                 cell = self.world.grid[y][x]
-                if isinstance(cell, Shark):
-                    display[y][x] = cell.emoji_shark
-                elif isinstance(cell, Tuna):
-                    display[y][x] = cell.emoji_tuna
+                if isinstance(cell, Fish):
+                    display[y][x] = cell.emoji
                 else:
                     display[y][x] = " "
         return display
