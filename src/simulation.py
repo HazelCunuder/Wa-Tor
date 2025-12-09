@@ -48,13 +48,13 @@ class Simulation:
             print("+" + ("---+" * len(visual[0])))
             
     def is_simulation_over(self) -> bool:
-        total_fish: int = len(self.world.fishes)
+        total_tunas: int = len(self.world.tunas)
+        total_sharks: int = len(self.world.sharks)
         
-        if total_fish == 0:
+        if total_tunas == 0:
             return True
         
-        total_cells: int = self.world.grid_size
-        if total_fish >= total_cells:
+        if total_sharks == 0:
             return True
         
         return False
