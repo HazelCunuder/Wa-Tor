@@ -47,7 +47,24 @@ class DataManager:
         
         return simulation_id
         
-    
+    def save_chronon_data(self, sim_id: int, chronon_history: list):
+        history: list = []
+        
+        for index, data_tuple in enumerate(chronon_history):
+            current_sim = (data_tuple[0], data_tuple[1], data_tuple[2], data_tuple[3], sim_id)
+            
+            history.append(current_sim)
+            
+        self.connect_to_db()
+        
+        self.cursor.executemany("""
+                                INSERT INTO current_sim (current_chronon, nb_tunas, nb_sharks, nb_megalodons, simulation_id)
+                                VALUES (%s, %s, %s, %s, %s)
+                                """, history
+                                )
+        
+        self.connection.commit()
+        self.disconnect_from_db()
     
     def disconnect_from_db(self):
         self.cursor.close()
