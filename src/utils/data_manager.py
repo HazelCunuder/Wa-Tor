@@ -1,5 +1,4 @@
 import psycopg2
-import datetime
 from configparser import ConfigParser
 from pathlib import Path
 
@@ -7,10 +6,12 @@ class DataManager:
     def __init__(self) -> None:
         self.filename = Path(__file__).parent / "database.ini"
         self.config = ConfigParser()
+        self.config.read(self.filename)
         self.host = self.config["postgresql"]["host"]
         self.database = self.config["postgresql"]["database"]
         self.user = self.config["postgresql"]["user"]
         self.password = self.config["postgresql"]["password"]
+
     
     def connect_to_db(self) -> None:
         self.connection = psycopg2.connect(
@@ -23,13 +24,32 @@ class DataManager:
         self.cursor = self.connection.cursor()
     
     def save_sim_data(self, results_dict: dict):
-        pass
+        self.connect_to_db()
+        
+        self.cursor.execute("""
+                            INSERT INTO simulation (experiment_date, hours, minutes, grid_height, grid_width, chronons_reached)
+                            VALUES (%s, %s, %s, %s, %s, %s)
+                            RETURNING id
+                            """,
+                            (
+                            results_dict["experiment_date"], 
+                            results_dict['hours'],
+                            results_dict['minutes'],
+                            results_dict['grid_height'],
+                            results_dict['grid_width'],
+                            results_dict['chronons_reached']
+                            )
+                            )
+        simulation_id = self.cursor.fetchone()[0] #type: ignore
+        
+        self.connection.commit()
+        self.disconnect_from_db()
+        
+        return simulation_id
+        
     
-    def get_time(self):
-        pass
-    
-    def get_date(self):
-        pass
     
     def disconnect_from_db(self):
-        pass
+        self.cursor.close()
+        self.connection.close()
+        
