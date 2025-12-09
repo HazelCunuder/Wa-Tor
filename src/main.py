@@ -1,15 +1,13 @@
 from world import World
 from simulation import Simulation
 from entities import *
+from utils.configuration import ConfigurationWator
 
-input_height: int = int(input("Enter a height: "))
-input_width: int = int(input("Enter a width: "))
-input_tunas: int = int(input("How many tunas in the simulation? "))
-input_sharks: int = int(input("How many sharks in the simulation? "))
+config = ConfigurationWator()
 
-planet: World = World(height= input_height, width=input_width)
+planet: World = World(config)
 
-planet.randomly_place_fishes(nb_sharks = input_sharks, nb_tunas = input_tunas)
+planet.randomly_place_fishes(nb_sharks = config.nb_shark, nb_tunas = config.nb_tuna)
 
 sim = Simulation(planet)
 

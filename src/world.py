@@ -2,12 +2,14 @@ import random
 from entities.fish import Fish
 from entities.tuna import Tuna
 from entities.shark import Shark
+from utils.configuration import ConfigurationWator
 
 class World:
-    def __init__(self, height: int, width: int) -> None:
-        self.grid_height: int = height
-        self.grid_width: int = width
-        self.grid_size: int = height * width
+    def __init__(self, config: ConfigurationWator) -> None:
+        self.config: ConfigurationWator = config
+        self.grid_height: int = config.grid_height
+        self.grid_width: int = config.grid_width
+        self.grid_size: int = config.grid_height * config.grid_width
         self.grid = self.init_grid()
         self.chronons: int = 0
         self.fishes: list[Fish] = []
@@ -53,7 +55,7 @@ class World:
                 y = random.randrange(self.grid_height)
               
                 if self.is_position_valid(x=x,y=y):
-                    shark = Shark(x, y)
+                    shark = Shark(x, y, self.config)
                     self.new_shark(shark)
                     break
                 
@@ -63,14 +65,13 @@ class World:
                 y = random.randrange(self.grid_height)
                 
                 if self.is_position_valid(x=x, y=y):
-                    tuna = Tuna(x, y)
+                    tuna = Tuna(x, y, self.config)
                     self.new_tuna(tuna)
                     break
     
     def world_cycle(self):
         new_sharks: list[Shark] = []
         new_tunas: list[Tuna] = []    
-    
     
         for shark in self.sharks:
             if shark and shark.is_alive:
