@@ -5,16 +5,16 @@ from entities.shark import Shark
 from utils.configuration import ConfigurationWator
 
 class World:
-    def __init__(self, height: int, width: int) -> None:
-        self.grid_height: int = height
-        self.grid_width: int = width
-        self.grid_size: int = height * width
+    def __init__(self, config: ConfigurationWator) -> None:
+        self.config: ConfigurationWator = config
+        self.grid_height: int = config.grid_height
+        self.grid_width: int = config.grid_width
+        self.grid_size: int = config.grid_height * config.grid_width
         self.grid = self.init_grid()
         self.chronons: int = 0
         self.fishes: list[Fish] = []
         self.tunas: list[Tuna] = []
         self.sharks: list[Shark] = []
-        self.config: ConfigurationWator = ConfigurationWator()
         
     def init_grid(self) -> list[list[Fish | None]]:
         # We use _ here because we won't use this variable for anything else in the entire code
