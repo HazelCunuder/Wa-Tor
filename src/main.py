@@ -5,7 +5,7 @@ from utils.configuration import ConfigurationWator
 
 config = ConfigurationWator()
 
-planet: World = World(height= config.grid_height, width=config.grid_width)
+planet: World = World(config)
 
 planet.randomly_place_fishes(nb_sharks = config.nb_shark, nb_tunas = config.nb_tuna)
 
