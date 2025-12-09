@@ -218,3 +218,4 @@ bin/python
 bin/python3
 bin/python3.12
 src/utils/database.ini
+src/utils/test_config.py
