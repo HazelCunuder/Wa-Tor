@@ -2,6 +2,7 @@ import random
 from entities.fish import Fish
 from entities.tuna import Tuna
 from entities.shark import Shark
+from entities.megalodon import Megalodon
 from utils.configuration import ConfigurationWator
 
 class World:
@@ -14,27 +15,26 @@ class World:
         self.chronons: int = 0
         self.tunas: list[Tuna] = []
         self.sharks: list[Shark] = []
-        self.megalodons: list = []
+        self.megalodons: list[Megalodon] = []
         
     def init_grid(self) -> list[list[Fish | None]]:
         # We use _ here because we won't use this variable for anything else in the entire code
         return [[None for _ in range(self.grid_width)] for _ in range(self.grid_height)]
     
-    def new_tuna(self, tuna: Tuna):
-        if not self.is_position_valid(x=tuna.pos_x, y=tuna.pos_y):
+    def new_entity(self, entity: Fish):
+        if not self.is_position_valid(x=entity.pos_x, y=entity.pos_y):
             return None
         if len(self.tunas) >= (self.grid_width * self.grid_height):
             return None
-        self.tunas.append(tuna)
-        self.grid[tuna.pos_y][tuna.pos_x] = tuna
         
-    def new_shark(self, shark: Shark):
-        if not self.is_position_valid(x=shark.pos_x, y=shark.pos_y):
-            return None
-        if len(self.tunas) >= (self.grid_width * self.grid_height):
-            return None
-        self.sharks.append(shark)
-        self.grid[shark.pos_y][shark.pos_x] = shark
+        if isinstance(entity, Megalodon):
+            self.megalodons.append(entity)
+        elif isinstance(entity, Shark):
+            self.sharks.append(entity)
+        elif isinstance(entity, Tuna):
+            self.tunas.append(entity)
+        
+        self.grid[entity.pos_y][entity.pos_x] = entity
         
     def is_position_valid(self, x: int, y: int) -> bool:
         if x >= self.grid_width or y >= self.grid_height:
@@ -45,7 +45,17 @@ class World:
             else:
                 return False    
     
-    def randomly_place_fishes(self, nb_sharks: int, nb_tunas: int):
+    def randomly_place_fishes(self, nb_sharks: int, nb_tunas: int, nb_megalodons: int):
+        
+        for _ in range(nb_megalodons):
+            while True:
+                x = random.randrange(self.grid_width)
+                y = random.randrange(self.grid_height)
+              
+                if self.is_position_valid(x=x,y=y):
+                    megalodon = Megalodon(x, y)
+                    self.new_entity(megalodon)
+                    break
         
         for _ in range(nb_sharks):
             while True:
@@ -54,7 +64,7 @@ class World:
               
                 if self.is_position_valid(x=x,y=y):
                     shark = Shark(x, y, self.config)
-                    self.new_shark(shark)
+                    self.new_entity(shark)
                     break
                 
         for _ in range(nb_tunas):
@@ -64,7 +74,7 @@ class World:
                 
                 if self.is_position_valid(x=x, y=y):
                     tuna = Tuna(x, y, self.config)
-                    self.new_tuna(tuna)
+                    self.new_entity(tuna)
                     break
                 
     def _process_entity(self, entity: Fish, new_entities: list):
@@ -81,8 +91,15 @@ class World:
             new_entities.append(baby_fish)
     
     def world_cycle(self):
+        new_megalodons: list[Megalodon] = []
         new_sharks: list[Shark] = []
-        new_tunas: list[Tuna] = []    
+        new_tunas: list[Tuna] = []
+        
+        for megalodon in self.megalodons:
+            if megalodon.is_alive:
+                self._process_entity(megalodon, new_megalodons)
+                
+        self.megalodons = [m for m in self.megalodons if m.is_alive]
     
         for shark in self.sharks:
             if shark.is_alive:
@@ -95,7 +112,8 @@ class World:
                 self._process_entity(tuna, new_tunas)
                 
         self.tunas = [t for t in self.tunas if t.is_alive]
-
+        
+        self.megalodons.extend(new_megalodons)
         self.sharks.extend(new_sharks)
         self.tunas.extend(new_tunas)
         
