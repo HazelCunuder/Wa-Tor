@@ -12,9 +12,9 @@ class World:
         self.grid_size: int = config.grid_height * config.grid_width
         self.grid = self.init_grid()
         self.chronons: int = 0
-        self.fishes: list[Fish] = []
         self.tunas: list[Tuna] = []
         self.sharks: list[Shark] = []
+        self.megalodons: list = []
         
     def init_grid(self) -> list[list[Fish | None]]:
         # We use _ here because we won't use this variable for anything else in the entire code
@@ -26,7 +26,6 @@ class World:
         if len(self.tunas) >= (self.grid_width * self.grid_height):
             return None
         self.tunas.append(tuna)
-        self.fishes.append(tuna)
         self.grid[tuna.pos_y][tuna.pos_x] = tuna
         
     def new_shark(self, shark: Shark):
@@ -35,7 +34,6 @@ class World:
         if len(self.tunas) >= (self.grid_width * self.grid_height):
             return None
         self.sharks.append(shark)
-        self.fishes.append(shark)
         self.grid[shark.pos_y][shark.pos_x] = shark
         
     def is_position_valid(self, x: int, y: int) -> bool:
@@ -74,7 +72,7 @@ class World:
         new_tunas: list[Tuna] = []    
     
         for shark in self.sharks:
-            if shark and shark.is_alive:
+            if shark.is_alive:
                 old_x = shark.pos_x
                 old_y = shark.pos_y
                 new_pos = shark.move(self.grid)
@@ -84,15 +82,14 @@ class World:
                 if baby_shark and self.is_position_valid(x= baby_shark.pos_x, y= baby_shark.pos_y):
                     self.grid[baby_shark.pos_y][baby_shark.pos_x] = baby_shark
                     new_sharks.append(baby_shark)
-            if shark and not shark.is_alive:
+            elif not shark.is_alive:
                 old_x = shark.pos_x
                 old_y = shark.pos_y
                 self.grid[old_y][old_x] = None
                 self.sharks.remove(shark)
-                self.fishes.remove(shark)
 
         for tuna in self.tunas:
-            if tuna and tuna.is_alive:
+            if tuna.is_alive:
                 old_x = tuna.pos_x
                 old_y = tuna.pos_y
                 new_pos = tuna.move(self.grid)
@@ -102,18 +99,14 @@ class World:
                 if baby_tuna and self.is_position_valid(x = baby_tuna.pos_x, y = baby_tuna.pos_y):
                     self.grid[baby_tuna.pos_y][baby_tuna.pos_x] = baby_tuna
                     new_tunas.append(baby_tuna)
-            if tuna and not tuna.is_alive:
+            elif not tuna.is_alive:
                 old_x = tuna.pos_x
                 old_y = tuna.pos_y
                 self.grid[old_y][old_x] = None
                 self.tunas.remove(tuna)
-                self.fishes.remove(tuna)
 
         self.sharks.extend(new_sharks)
         self.tunas.extend(new_tunas)
-        
-        self.fishes.extend(new_sharks)
-        self.fishes.extend(new_tunas)
         
         self.chronons += 1
 
