@@ -11,7 +11,7 @@ class Megalodon(Fish):
         self.config = None 
         self.energy: int = 3
         self.reproduction_time: int = 10
-        self.emoji_megalodon: str ="🐋"
+        self.emoji: str ="🐋"
         self.is_alive: bool = True
 
 
@@ -55,7 +55,7 @@ class Megalodon(Fish):
         return (x, y)
 
 
-    def eat(self, grid: list[list[Fish | None]],pos_x:int, pos_y:int) -> bool:
+    def eat(self, grid: list[list[Fish | None]],pos_x:int, pos_y:int):
         target = grid[pos_y][pos_x]
         if isinstance(target, (Tuna, Shark)) and not isinstance(target, Megalodon):
             self.energy += 1 

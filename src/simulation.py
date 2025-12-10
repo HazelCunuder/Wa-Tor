@@ -30,18 +30,18 @@ class Simulation:
             world.world_cycle()
             self.print_grid_ascii()
             
-            if self.world.chronons % 10 == 0:
-                self.chronon_history.append((world.chronons, len(world.tunas), len(world.sharks), len(world.megalodons)))
+        #     if self.world.chronons % 10 == 0:
+        #         self.chronon_history.append((world.chronons, len(world.tunas), len(world.sharks), len(world.megalodons)))
                 
-        if self.world.chronons % 10 != 0:
-            self.chronon_history.append((world.chronons,len(world.tunas), len(world.sharks), len(world.megalodons)))
-          
+        # if self.world.chronons % 10 != 0:
+        #     self.chronon_history.append((world.chronons,len(world.tunas), len(world.sharks), len(world.megalodons)))
+        
         print(f"Number of sharks left: {len(world.sharks)}")
         print(f"Number of tunas left: {len(world.tunas)}")
         print(f"Total Chronons: {world.chronons}")
         
-        sim_id = self.save.save_sim_data(self.get_results())
-        self.save.save_chronon_data(sim_id, self.chronon_history)
+        # sim_id = self.save.save_sim_data(self.get_results())
+        # self.save.save_chronon_data(sim_id, self.chronon_history)
         
     def print_grid_ascii(self):
         visual = self.display_grid()
@@ -58,16 +58,7 @@ class Simulation:
             print("+" + ("---+" * len(visual[0])))
             
     def is_simulation_over(self) -> bool:
-        total_tunas: int = len(self.world.tunas)
-        total_sharks: int = len(self.world.sharks)
-        
-        if total_tunas == 0:
-            return True
-        
-        if total_sharks == 0:
-            return True
-        
-        return False
+        return len(self.world.tunas) == 0 or len(self.world.sharks) == 0 or len(self.world.megalodons) == 0
     
     def get_results(self) -> dict:
         now = datetime.datetime.now()
