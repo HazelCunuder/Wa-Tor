@@ -1,10 +1,11 @@
 from entities.fish import Fish
 from world import World
 from utils.data_manager import DataManager
+from simulation_graph import SimulationGraph
 import datetime
 
 class Simulation:
-    def __init__(self, world: World):
+    def __init__(self, world: World, graph: SimulationGraph):
         """
         Initialize the simulation with a world and setup data tracking.
         Creates a DataManager instance for saving results and initializes an empty list to track population history over time.
@@ -15,6 +16,7 @@ class Simulation:
         self.world = world
         self.save = DataManager()
         self.chronon_history: list = []
+        self.graph = graph
     
     def display_grid(self) -> list[list[str]]:
         """
@@ -35,38 +37,72 @@ class Simulation:
                 else:
                     display[y][x] = " "
         return display
-    
-    def run_simulation(self, world: World):
+
+    def run_simulation(self, world: World, graph: SimulationGraph):
         """
-        Execute the main simulation loop until termination conditions are met.
-        Runs world cycles, displays the grid state, and tracks population statistics.
-        Saves chronon history every 10 cycles to monitor population trends, with a final save of the last chronon if it's not a multiple of 10 to avoid duplicate entries while capturing the final state.
-        Once complete, saves both the overall simulation results and the chronon history to the database.
+        Run the Wa-Tor simulation with real-time graph visualization.
         
-        Parameters:
-            world (World): The world instance to simulate
+        Initializes the simulation, displays the initial state, and starts
+        the step-by-step simulation loop with graph updates.
+        
+        Args:
+            world (World): The world object containing the grid and entities
+            graph (SimulationGraph): The graph object for visualization
         """
+        self.world = world
+        self.graph = graph
+        
         print("Initial state: ")
         self.print_grid_ascii()
         
-        while not self.is_simulation_over():
+        self._simulation_step()
+        
+        self.graph.show()
+
+    def _simulation_step(self):
+        """
+        Execute one chronon of the simulation.
+        
+        Performs one world cycle, updates the display, records population data,
+        updates the graph, and schedules the next step. If the simulation is over,
+        saves data to the database and stops.
+        """
+        if not self.is_simulation_over():
             print("\n")
-            world.world_cycle()
+            self.world.world_cycle()
             self.print_grid_ascii()
             
             if self.world.chronons % 10 == 0:
-                self.chronon_history.append((world.chronons, len(world.tunas), len(world.sharks), len(world.megalodons)))
-                
-        if self.world.chronons % 10 != 0:
-            self.chronon_history.append((world.chronons,len(world.tunas), len(world.sharks), len(world.megalodons)))
-        
-        print(f"Number of Megalodons left: {len(world.megalodons)}")
-        print(f"Number of sharks left: {len(world.sharks)}")
-        print(f"Number of tunas left: {len(world.tunas)}")
-        print(f"Total Chronons: {world.chronons}")
-        
-        sim_id = self.save.save_sim_data(self.get_results())
-        self.save.save_chronon_data(sim_id, self.chronon_history)
+                self.chronon_history.append((
+                    self.world.chronons,
+                    len(self.world.tunas),
+                    len(self.world.sharks),
+                    len(self.world.megalodons)
+                ))
+            
+            self.graph.update(
+                self.world.chronons,
+                len(self.world.tunas),
+                len(self.world.sharks),
+                len(self.world.megalodons)
+            )
+            
+            print(f"Number of sharks left: {len(self.world.sharks)}")
+            print(f"Number of tunas left: {len(self.world.tunas)}")
+            print(f"Total Chronons: {self.world.chronons}")
+            
+            self.graph.root.after(100, self._simulation_step)
+        else:
+            if self.world.chronons % 10 != 0:
+                self.chronon_history.append((
+                    self.world.chronons,
+                    len(self.world.tunas),
+                    len(self.world.sharks),
+                    len(self.world.megalodons)
+                ))
+            
+            sim_id = self.save.save_sim_data(self.get_results())
+            self.save.save_chronon_data(sim_id, self.chronon_history) 
         
     def print_grid_ascii(self):
         """
