@@ -57,7 +57,34 @@ class ConfigurationWator:
             max_value=20
         )
 
-       
+        self.nb_megalodon = self.ask_user_input(
+            "Choose the number of megalodons:",
+            1,
+            min_value=0,
+            max_value=self.grid_width * self.grid_height
+        )
+
+        self.times_breed_megalodon = self.ask_user_input(
+            "Enter the time of breed for the megalodons:",
+            10,
+            min_value=1,
+            max_value=20
+        )
+
+        self.energy_megalodon = self.ask_user_input(
+            "Enter the initial energy for the megalodons:",
+            3,
+            min_value=1,
+            max_value=20
+        )
+
+        self.recovery_energy_megalodon = self.ask_user_input(
+            "Choose energy points for megalodons when they eat:",
+            1,
+            min_value=1,
+            max_value=20
+        )
+
         self.display_summary()
 
 
@@ -85,5 +112,9 @@ class ConfigurationWator:
         print(f"Shark breeding time: {self.times_breed_shark}")
         print(f"Énergy shark : {self.energy_shark}")
         print(f"Énergy gained : {self.recovery_energy_shark}")
+        print(f"Megalodons : {self.nb_megalodon}")
+        print(f"Megalodon breeding time: {self.times_breed_megalodon}")
+        print(f"Energy megalodon : {self.energy_megalodon}")
+        print(f"Energy gained (megalodon): {self.recovery_energy_megalodon}")
         print("=========================\n")
 
