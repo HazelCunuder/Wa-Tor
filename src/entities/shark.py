@@ -17,13 +17,15 @@ class Shark(Fish):
 
         if isinstance(grid[available_moves[0][1]][available_moves[0][0]], Tuna):
             x, y = random.choice(available_moves)
-            fish : Fish | None = grid[y][x]
-            if isinstance(fish, Tuna):
-                fish.is_alive = False
-            self.energy += self.config.recovery_energy_shark
+            tuna = grid[y][x]
+            self.eat(tuna)  
             return (x, y)
 
         return super().choose_move(available_moves, grid)
+
+    def eat(self, tuna: Tuna) -> None:
+        tuna.is_alive = False
+        self.energy += self.config.recovery_energy_shark
 
     def get_available_spaces(self, grid: list[list[Fish | None]]) -> list[tuple[int, int]]:
         available: list[tuple[int, int]] = []
