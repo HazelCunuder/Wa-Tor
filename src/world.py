@@ -66,6 +66,19 @@ class World:
                     tuna = Tuna(x, y, self.config)
                     self.new_tuna(tuna)
                     break
+                
+    def _process_entity(self, entity: Fish, new_entities: list):
+        old_x = entity.pos_x
+        old_y = entity.pos_y
+        new_pos = entity.move(self.grid)
+        
+        self.grid[old_y][old_x] = None
+        self.grid[new_pos[1]][new_pos[0]] = entity
+        
+        baby_fish = entity.reproduce(pos_x= old_x, pos_y= old_y)
+        if baby_fish and self.is_position_valid(x= baby_fish.pos_x, y= baby_fish.pos_y):
+            self.grid[baby_fish.pos_y][baby_fish.pos_x] = baby_fish
+            new_entities.append(baby_fish)
     
     def world_cycle(self):
         new_sharks: list[Shark] = []
@@ -73,37 +86,15 @@ class World:
     
         for shark in self.sharks:
             if shark.is_alive:
-                old_x = shark.pos_x
-                old_y = shark.pos_y
-                new_pos = shark.move(self.grid)
-                self.grid[old_y][old_x] = None
-                self.grid[new_pos[1]][new_pos[0]] = shark
-                baby_shark = shark.reproduce(pos_x= old_x, pos_y= old_y)
-                if baby_shark and self.is_position_valid(x= baby_shark.pos_x, y= baby_shark.pos_y):
-                    self.grid[baby_shark.pos_y][baby_shark.pos_x] = baby_shark
-                    new_sharks.append(baby_shark)
-            elif not shark.is_alive:
-                old_x = shark.pos_x
-                old_y = shark.pos_y
-                self.grid[old_y][old_x] = None
-                self.sharks.remove(shark)
+                self._process_entity(shark, new_sharks)
 
+        self.sharks = [s for s in self.sharks if s.is_alive]
+        
         for tuna in self.tunas:
             if tuna.is_alive:
-                old_x = tuna.pos_x
-                old_y = tuna.pos_y
-                new_pos = tuna.move(self.grid)
-                self.grid[old_y][old_x] = None
-                self.grid[new_pos[1]][new_pos[0]] = tuna
-                baby_tuna = tuna.reproduce(pos_x = old_x, pos_y = old_y)
-                if baby_tuna and self.is_position_valid(x = baby_tuna.pos_x, y = baby_tuna.pos_y):
-                    self.grid[baby_tuna.pos_y][baby_tuna.pos_x] = baby_tuna
-                    new_tunas.append(baby_tuna)
-            elif not tuna.is_alive:
-                old_x = tuna.pos_x
-                old_y = tuna.pos_y
-                self.grid[old_y][old_x] = None
-                self.tunas.remove(tuna)
+                self._process_entity(tuna, new_tunas)
+                
+        self.tunas = [t for t in self.tunas if t.is_alive]
 
         self.sharks.extend(new_sharks)
         self.tunas.extend(new_tunas)
