@@ -6,8 +6,7 @@ class Tuna (Fish):
     def __init__(self, pos_x: int, pos_y: int, config: ConfigurationWator)-> None:
         super().__init__(pos_x, pos_y, config)
         self.reproduction_time: int = config.time_breed_tuna
-        self.emoji_tuna: str ="🐟"
-        self.is_alive: bool = True
+        self.emoji: str ="🐟"
 
     def reproduce(self, pos_x: int, pos_y: int) -> Tuna | None:
         if self.reproduction_time <= 0:

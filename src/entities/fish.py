@@ -7,7 +7,9 @@ class Fish:
         self.pos_x: int = pos_x
         self.pos_y: int = pos_y
         self.config = config 
-
+        self.is_alive: bool = True
+        self.emoji: str = " "
+        
     def move(self, grid:  list[list[Fish | None]]) -> tuple[int, int]:
         available_moves : list[tuple[int, int]] = self.get_available_spaces(grid)
         move: tuple[int, int] = self.choose_move(available_moves, grid)
