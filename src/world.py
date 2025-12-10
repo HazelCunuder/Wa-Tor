@@ -53,7 +53,7 @@ class World:
                 y = random.randrange(self.grid_height)
               
                 if self.is_position_valid(x=x,y=y):
-                    megalodon = Megalodon(x, y)
+                    megalodon = Megalodon(x, y, self.config)
                     self.new_entity(megalodon)
                     break
         
