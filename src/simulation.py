@@ -36,6 +36,7 @@ class Simulation:
         # if self.world.chronons % 10 != 0:
         #     self.chronon_history.append((world.chronons,len(world.tunas), len(world.sharks), len(world.megalodons)))
         
+        print(f"Number of Megalodons left: {len(world.megalodons)}")
         print(f"Number of sharks left: {len(world.sharks)}")
         print(f"Number of tunas left: {len(world.tunas)}")
         print(f"Total Chronons: {world.chronons}")
