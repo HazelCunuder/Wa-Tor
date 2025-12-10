@@ -9,7 +9,6 @@ class Megalodon(Fish):
         self.pos_x: int = pos_x
         self.pos_y: int = pos_y
         self.config = None 
-    
         self.energy: int = 3
         self.reproduction_time: int = 10
         self.emoji_megalodon: str ="🐋"
@@ -43,9 +42,6 @@ class Megalodon(Fish):
             return []
     
 
-    
-
-
     def choose_move(self, available_moves: list[tuple[int, int]], grid: list[list[Fish | None]]) -> tuple[int, int]:
         if not available_moves:
             return (self.pos_x, self.pos_y)
@@ -57,7 +53,6 @@ class Megalodon(Fish):
             self.eat(grid, x, y)
         
         return (x, y)
-
 
 
     def eat(self, grid: list[list[Fish | None]],pos_x:int, pos_y:int) -> bool:
