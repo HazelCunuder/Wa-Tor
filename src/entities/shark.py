@@ -9,24 +9,23 @@ class Shark(Fish):
         super().__init__(pos_x, pos_y, config)
         self.energy: int = config.energy_shark
         self.reproduction_time: int = config.times_breed_shark
-        self.emoji_shark: str ="🦈"
-        self.is_alive: bool = True
+        self.emoji: str ="🦈"
     
     def choose_move(self, available_moves: list[tuple[int, int]], grid: list[list[Fish | None]]) -> tuple[int, int]:
         if not available_moves:
-            return super().choose_move(available_moves, grid)
+            return (self.pos_x, self.pos_y)
 
         if isinstance(grid[available_moves[0][1]][available_moves[0][0]], Tuna):
-            x : int
-            y : int
             x, y = random.choice(available_moves)
-            cell : Fish | None = grid[y][x]
-            if isinstance(cell, Tuna):
-                cell.is_alive = False
-            self.energy += self.config.recovery_energy_shark
+            tuna = grid[y][x]
+            self.eat(tuna)  
             return (x, y)
 
         return super().choose_move(available_moves, grid)
+
+    def eat(self, tuna: Tuna) -> None:
+        tuna.is_alive = False
+        self.energy += self.config.recovery_energy_shark
 
     def get_available_spaces(self, grid: list[list[Fish | None]]) -> list[tuple[int, int]]:
         available: list[tuple[int, int]] = []
