@@ -2,16 +2,17 @@ from __future__ import annotations
 from .fish import Fish
 from .tuna import Tuna
 from .shark import Shark
+from utils.configuration import ConfigurationWator
 import random
 
 class Megalodon(Fish):
-    def __init__(self,pos_x:int, pos_y:int) -> None:
+    def __init__(self, pos_x: int, pos_y: int, config: ConfigurationWator) -> None:
         self.pos_x: int = pos_x
         self.pos_y: int = pos_y
-        self.config = None 
-        self.energy: int = 3
-        self.reproduction_time: int = 10
-        self.emoji: str ="🐋"
+        self.config: ConfigurationWator = config
+        self.energy: int = config.energy_megalodon
+        self.reproduction_time: int = config.times_breed_megalodon
+        self.emoji: str = "🐋"
         self.is_alive: bool = True
 
 
@@ -64,8 +65,8 @@ class Megalodon(Fish):
 
     def reproduce(self, pos_x: int, pos_y: int) -> Fish | None:
         if self.reproduction_time <= 0:
-            self.reproduction_time = 10
-            return Megalodon(pos_x, pos_y)
+            self.reproduction_time = self.config.times_breed_megalodon
+            return Megalodon(pos_x, pos_y, self.config)
         self.reproduction_time -= 1
         return None
     
