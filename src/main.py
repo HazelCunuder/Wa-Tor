@@ -2,8 +2,13 @@ from world import World
 from simulation import Simulation
 from entities import *
 from utils.configuration import ConfigurationWator
+from utils.data_manager import DataManager
 
 config = ConfigurationWator()
+
+save = DataManager()
+
+save.create_tables()
 
 planet: World = World(config)
 
