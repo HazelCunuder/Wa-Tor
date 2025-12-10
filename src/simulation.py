@@ -58,7 +58,7 @@ class Simulation:
             print("+" + ("---+" * len(visual[0])))
             
     def is_simulation_over(self) -> bool:
-        return len(self.world.tunas) == 0 or len(self.world.sharks) == 0
+        return len(self.world.tunas) == 0 or len(self.world.sharks) == 0 or len(self.world.megalodons) == 0
     
     def get_results(self) -> dict:
         now = datetime.datetime.now()
