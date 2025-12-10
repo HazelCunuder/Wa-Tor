@@ -32,10 +32,6 @@ class DataManager:
         
         We create instance variables at this moment and not during initializations because we do not want to connect to the database before it is necessary.
         Adding them here lets us access those only when needed to save some data.        
-        
-        Raises:
-            psycopg2.DatabaseError: If the connection cannot be established with the
-                given credentials or if the database is unavailable.
         """
         
         self.connection = psycopg2.connect(
@@ -68,10 +64,6 @@ class DataManager:
         Returns:
             simulation_id: int: The id of the simulation we just saved in our table. It will be used as a parameter in the
             save_chronon_data() method, to link the recorded history to this simulation.
-                
-        Raises:
-            psycopg2.DatabaseError: If the INSERT operation fails.
-            KeyError: If required keys are missing from results_dict.
         """
         
         self.connect_to_db()
@@ -113,10 +105,6 @@ class DataManager:
                 - [1] nb_tunas (int): Number of tuna at this time step
                 - [2] nb_sharks (int): Number of shark at this time step
                 - [3] nb_megalodons (int): Number of megalodon at this time step
-            
-        Raises:
-            psycopg2.DatabaseError: If the batch INSERT operation fails.
-            IndexError: If any tuple in chronon_history has fewer than 4 elements.
         """
         
         history: list = []
@@ -144,12 +132,45 @@ class DataManager:
         This method ensures that database resources are properly released after each
         operation, preventing connection leaks and allowing the database to manage
         its connection pool efficiently. Called after each transaction completes.
-
-        Raises:
-            psycopg2.DatabaseError: If the connection is already closed or in an
-                invalid state.
         """
         
         self.cursor.close()
         self.connection.close()
+    
+    def create_tables(self):
+        """
+        Creates the tables of our database IF the tables do not already exist within the db
         
+        This makes sure that the data we collect is going to be properly stored in our database
+        """
+        
+        self.connect_to_db()
+        
+        self.cursor.execute("""
+                            CREATE TABLE IF NOT EXISTS simulation (
+                                id SERIAL PRIMARY KEY,
+                                experiment_date DATE NOT NULL,
+                                hours INT NOT NULL,
+                                minutes INT NOT NULL,
+                                grid_height INT NOT NULL,
+                                grid_width INT NOT NULL,
+                                chronons_reached INT NOT NULL
+                            )
+                            """)
+        
+        self.connection.commit()
+        
+        self.cursor.execute("""
+                            CREATE TABLE IF NOT EXISTS current_sim(
+                                id SERIAL PRIMARY KEY,
+                                current_chronon INT NOT NULL,
+                                nb_tunas INT NOT NULL,
+                                nb_sharks INT NOT NULL,
+                                nb_megalodons INT NOT NULL,
+                                simulation_id INT NOT NULL REFERENCES simulation(id)
+                            )
+                            """)
+        
+        self.connection.commit()
+        
+        self.disconnect_from_db()
