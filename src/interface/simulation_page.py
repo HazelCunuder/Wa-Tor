@@ -10,14 +10,18 @@ class SimulationPage(tk.Frame):
         super().__init__(parent)
         self.controller = controller
         self.cell_size = 10
+        self.is_running = False
 
         self.canvas = tk.Canvas(self, bg="black")
         self.canvas.pack(fill="both", expand=True)
-        self.next_button = tk.Button(self, text="Next step", command=self.next_step)
+        self.next_button = tk.Button(self, text="Next step", command = self.next_step)
         self.next_button.pack(pady=10)
-        self.reset_button = tk.Button(self, text="Reset", command=self.reset_simulation)
+        self.reset_button = tk.Button(self, text="Reset", command = self.reset_simulation)
         self.reset_button.pack(pady=10)
+        self.run_simulation_button = tk.Button(self, text="Start", command = self.run_simulation)
+        self.run_simulation_button.pack(pady=5)
         self.draw_grid()
+
     def draw_grid(self):
         self.canvas.delete("all")
         world = self.controller.world
@@ -51,5 +55,22 @@ class SimulationPage(tk.Frame):
 
     def reset_simulation(self):
         self.controller.create_world()
+        self.is_running = False
+        self.run_simulation_button.config(text="Start")
         self.draw_grid()
 
+    def run_simulation(self):
+        self.is_running = not self.is_running
+
+        if self.is_running:
+            self.run_simulation_button.config(text="Stop")
+            self.auto_run()
+        else:
+            self.run_simulation_button.config(text="Start")
+
+    def auto_run(self):
+        if not self.is_running:
+            return
+        self.controller.world.world_cycle()
+        self.draw_grid()
+        self.after(800, self.auto_run)
