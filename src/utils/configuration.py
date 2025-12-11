@@ -1,91 +1,107 @@
 class ConfigurationWator:
-    def __init__(self):
+    def __init__(self, interactive: bool = True):
       
-        self.grid_width = self.ask_user_input(
-            "Enter the grid's width: ",
-            10,
-            min_value=5,
-            max_value=100
-        )
+        if interactive:
+            self.grid_width = self.ask_user_input(
+                "Enter the grid's width: ",
+                10,
+                min_value=5,
+                max_value=100
+            )
 
-        self.grid_height = self.ask_user_input(
-            "Enter the grid's height: ",
-            10,
-            min_value=5,
-            max_value=100
-        )
+            self.grid_height = self.ask_user_input(
+                "Enter the grid's height: ",
+                10,
+                min_value=5,
+                max_value=100
+            )
 
-        self.nb_tuna = self.ask_user_input(
-            "Enter the number of tunas in the world: ",
-            25,
-            min_value=0,
-            max_value=self.grid_width * self.grid_height
-        )
+            self.nb_tuna = self.ask_user_input(
+                "Enter the number of tunas in the world: ",
+                25,
+                min_value=0,
+                max_value=self.grid_width * self.grid_height
+            )
 
-        self.nb_shark = self.ask_user_input(
-            "Enter the number of sharks in the world: ",
-            1,
-            min_value=0,
-            max_value=self.grid_width * self.grid_height
-        )
+            self.nb_shark = self.ask_user_input(
+                "Enter the number of sharks in the world: ",
+                1,
+                min_value=0,
+                max_value=self.grid_width * self.grid_height
+            )
 
-        self.time_breed_tuna = self.ask_user_input(
-            "Choose the breed cooldown for tunas: ",
-            3,
-            min_value=1,
-            max_value=20
-        )
+            self.time_breed_tuna = self.ask_user_input(
+                "Choose the breed cooldown for tunas: ",
+                3,
+                min_value=1,
+                max_value=20
+            )
 
-        self.times_breed_shark = self.ask_user_input(
-            "Choose the breed cooldown for sharks: ",
-            5,
-            min_value=1,
-            max_value=20
-        )
+            self.times_breed_shark = self.ask_user_input(
+                "Choose the breed cooldown for sharks: ",
+                5,
+                min_value=1,
+                max_value=20
+            )
 
-        self.energy_shark = self.ask_user_input(
-            "Enter the initial energy for the sharks: ",
-            3,
-            min_value=1,
-            max_value=20
-        )
+            self.energy_shark = self.ask_user_input(
+                "Enter the initial energy for the sharks: ",
+                3,
+                min_value=1,
+                max_value=20
+            )
 
-        self.recovery_energy_shark = self.ask_user_input(
-            "Enter the energy sharks gain when eating a tuna: ",
-            2,
-            min_value=1,
-            max_value=20
-        )
+            self.recovery_energy_shark = self.ask_user_input(
+                "Enter the energy sharks gain when eating a tuna: ",
+                2,
+                min_value=1,
+                max_value=20
+            )
 
-        self.nb_megalodon = self.ask_user_input(
-            "Enter the number of megalodons in the world: ",
-            1,
-            min_value=0,
-            max_value=self.grid_width * self.grid_height
-        )
+            self.nb_megalodon = self.ask_user_input(
+                "Enter the number of megalodons in the world: ",
+                1,
+                min_value=0,
+                max_value=self.grid_width * self.grid_height
+            )
 
-        self.times_breed_megalodon = self.ask_user_input(
-            "Choose the breed cooldown for megalodons: ",
-            10,
-            min_value=1,
-            max_value=20
-        )
+            self.times_breed_megalodon = self.ask_user_input(
+                "Choose the breed cooldown for megalodons: ",
+                10,
+                min_value=1,
+                max_value=20
+            )
 
-        self.energy_megalodon = self.ask_user_input(
-            "Enter the initial energy for the megalodons: ",
-            3,
-            min_value=1,
-            max_value=20
-        )
+            self.energy_megalodon = self.ask_user_input(
+                "Enter the initial energy for the megalodons: ",
+                3,
+                min_value=1,
+                max_value=20
+            )
 
-        self.recovery_energy_megalodon = self.ask_user_input(
-            "Enter the energy megalodons gain when eating a tuna: ",
-            1,
-            min_value=1,
-            max_value=20
-        )
+            self.recovery_energy_megalodon = self.ask_user_input(
+                "Enter the energy megalodons gain when eating a tuna: ",
+                1,
+                min_value=1,
+                max_value=20
+            )
+            
+            self.display_summary()
 
-        self.display_summary()
+        else:
+            
+            self.grid_width = None
+            self.grid_height = None
+            self.nb_tuna = None
+            self.nb_shark = None
+            self.time_breed_tuna = None
+            self.times_breed_shark = None
+            self.energy_shark = None
+            self.recovery_energy_shark = None
+            self.nb_megalodon = None
+            self.times_breed_megalodon = None
+            self.energy_megalodon = None
+            self.recovery_energy_megalodon = None
 
 
     def ask_user_input(self, prompt: str, default_value: int, max_value:int, min_value:int) -> int :
@@ -114,7 +130,7 @@ class ConfigurationWator:
                     print("Please enter a valid number")
             except ValueError:
                 print("Please enter a valid number")  
-                continue     
+                continue   
 
     def display_summary(self):
         """

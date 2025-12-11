@@ -6,10 +6,6 @@ from utils.data_manager import DataManager
 
 config = ConfigurationWator()
 
-save = DataManager()
-
-save.create_tables()
-
 planet: World = World(config)
 
 planet.randomly_place_fishes(nb_sharks = config.nb_shark, nb_tunas = config.nb_tuna, nb_megalodons= config.nb_megalodon)
