@@ -16,7 +16,7 @@ class SimulationPage(tk.Frame):
         self.canvas = tk.Canvas(self, bg="black")
         self.canvas.grid(row=0, column=0, sticky="nsew")
         self.canvas.bind("<Configure>", self.resize_simulation)
-        
+
         widget_frame = tk.Frame(self)
         widget_frame.grid(row=0, column=1, padx=50)
 
@@ -26,6 +26,9 @@ class SimulationPage(tk.Frame):
         self.run_simulation_button.pack(pady=5)
         self.reset_button = tk.Button(widget_frame, text="Reset", command=self.reset_simulation)
         self.reset_button.pack(pady=5)
+        self.info_simulation = tk.Label(widget_frame, text="")
+        self.info_simulation.pack(pady=10)
+
         self.draw_grid()
 
     def draw_grid(self):
@@ -55,7 +58,17 @@ class SimulationPage(tk.Frame):
                     color = "black"
 
                 self.canvas.create_rectangle(x1, y1, x2, y2, fill=color, outline="black")
+        
+        self.update_info(world)
 
+    def update_info(self, world):
+        self.info_simulation.config(
+            text=f"Chronon : {world.chronons}\n"
+             f"Tunas : {len(world.tunas)}\n"
+             f"Sharks : {len(world.sharks)}\n"
+             f"Megalodons : {len(world.megalodons)}"
+        )
+    
     def next_step(self):
         self.controller.world.world_cycle()
         self.draw_grid()
@@ -80,7 +93,7 @@ class SimulationPage(tk.Frame):
             return
         self.controller.world.world_cycle()
         self.draw_grid()
-        self.after(800, self.auto_run)
+        self.after(200, self.auto_run)
 
     def resize_simulation(self, event):
         self.canvas_width = event.width
