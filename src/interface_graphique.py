@@ -22,12 +22,13 @@ class InterfaceGraphique(tk.Tk):
         self.config_wator.times_breed_megalodon = 10
         self.config_wator.energy_megalodon = 5
         self.config_wator.recovery_energy_megalodon = 1
-        
-        self.world = World(self.config_wator)
-        self.world.randomly_place_fishes(nb_sharks = self.config_wator.nb_shark, nb_tunas = self.config_wator.nb_tuna, nb_megalodons = self.config_wator.nb_megalodon)
-        self.simulation = Simulation(self.world)
-
+        self.create_world()
         container = tk.Frame(self)
         container.pack(fill="both", expand=True)
         self.page = SimulationPage(parent=container, controller=self)
         self.page.pack(fill="both", expand=True)
+
+    def create_world(self) -> None:
+        self.world = World(self.config_wator)
+        self.world.randomly_place_fishes(nb_sharks = self.config_wator.nb_shark, nb_tunas = self.config_wator.nb_tuna, nb_megalodons = self.config_wator.nb_megalodon)
+        self.simulation = Simulation(self.world)

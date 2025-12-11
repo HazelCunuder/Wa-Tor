@@ -15,7 +15,9 @@ class SimulationPage(tk.Frame):
         self.canvas.pack(fill="both", expand=True)
         self.next_button = tk.Button(self, text="Next step", command=self.next_step)
         self.next_button.pack(pady=10)
-
+        self.reset_button = tk.Button(self, text="Reset", command=self.reset_simulation)
+        self.reset_button.pack(pady=10)
+        self.draw_grid()
     def draw_grid(self):
         self.canvas.delete("all")
         world = self.controller.world
@@ -45,5 +47,9 @@ class SimulationPage(tk.Frame):
 
     def next_step(self):
         self.controller.world.world_cycle()
+        self.draw_grid()
+
+    def reset_simulation(self):
+        self.controller.create_world()
         self.draw_grid()
 
