@@ -133,16 +133,20 @@ class SimulationPage(tk.Frame):
     def auto_run(self):
         if not self.is_running:
             return
-        self.controller.world.world_cycle()
-        self.controller.simulation.graph.update(
-            self.controller.world.chronons,
-            len(self.controller.world.tunas),
-            len(self.controller.world.sharks),
-            len(self.controller.world.megalodons)
-        )
-
-        self.draw_grid()
-        self.after(200, self.auto_run)
+        elif len(self.controller.world.tunas) == 0 or (len(self.controller.world.sharks) == 0 and len(self.controller.world.megalodons) == 0):
+            self.is_running = False
+            self.run_simulation_button.config(text="Start")
+            return
+        else:
+            self.controller.world.world_cycle()
+            self.controller.simulation.graph.update(
+                self.controller.world.chronons,
+                len(self.controller.world.tunas),
+                len(self.controller.world.sharks),
+                len(self.controller.world.megalodons)
+            )  
+            self.draw_grid()
+            self.after(200, self.auto_run)
 
     def resize_simulation(self, event):
         self.canvas_width = event.width
