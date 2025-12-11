@@ -7,8 +7,8 @@ from simulation_graph import SimulationGraph
 
 config = ConfigurationWator()
 
-save = DataManager()
-save.create_tables()
+data_manager = DataManager()
+data_manager.create_tables()
 
 planet: World = World(config)
 planet.randomly_place_fishes(nb_sharks=config.nb_shark, nb_tunas=config.nb_tuna, nb_megalodons=config.nb_megalodon)
