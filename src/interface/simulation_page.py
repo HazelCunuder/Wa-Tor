@@ -89,7 +89,7 @@ class SimulationPage(tk.Frame):
                 elif isinstance(entity, Shark) and entity.is_alive:
                     color = "red"
                 elif isinstance(entity, Megalodon) and entity.is_alive:
-                    color = "purple"
+                    color = "green"
                 else:
                     color = "black"
 
