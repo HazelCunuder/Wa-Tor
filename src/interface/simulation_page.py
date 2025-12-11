@@ -133,7 +133,7 @@ class SimulationPage(tk.Frame):
     def auto_run(self):
         if not self.is_running:
             return
-        elif len(self.controller.world.tunas) == 0 or (len(self.controller.world.sharks) == 0 and len(self.controller.world.megalodons) == 0):
+        elif len(self.controller.world.tunas) == 0 or len(self.controller.world.sharks) == 0 or len(self.controller.world.megalodons) == 0:
             self.is_running = False
             self.run_simulation_button.config(text="Start")
             return
