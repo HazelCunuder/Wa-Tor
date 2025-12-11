@@ -2,6 +2,7 @@ from world import World
 from simulation import Simulation
 from utils.configuration import ConfigurationWator
 from interface.simulation_page import SimulationPage
+from simulation_graph import SimulationGraph
 import tkinter as tk
 
 class InterfaceGraphique(tk.Tk): 
@@ -31,4 +32,5 @@ class InterfaceGraphique(tk.Tk):
     def create_world(self) -> None:
         self.world = World(self.config_wator)
         self.world.randomly_place_fishes(nb_sharks = self.config_wator.nb_shark, nb_tunas = self.config_wator.nb_tuna, nb_megalodons = self.config_wator.nb_megalodon)
-        self.simulation = Simulation(self.world)
+        self.graph = SimulationGraph()
+        self.simulation = Simulation(self.world, self.graph)

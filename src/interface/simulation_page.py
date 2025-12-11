@@ -71,6 +71,12 @@ class SimulationPage(tk.Frame):
     
     def next_step(self):
         self.controller.world.world_cycle()
+        self.controller.simulation.graph.update(
+            self.controller.world.chronons,
+            len(self.controller.world.tunas),
+            len(self.controller.world.sharks),
+            len(self.controller.world.megalodons)
+        )
         self.draw_grid()
 
     def reset_simulation(self):
@@ -92,6 +98,13 @@ class SimulationPage(tk.Frame):
         if not self.is_running:
             return
         self.controller.world.world_cycle()
+        self.controller.simulation.graph.update(
+            self.controller.world.chronons,
+            len(self.controller.world.tunas),
+            len(self.controller.world.sharks),
+            len(self.controller.world.megalodons)
+        )
+
         self.draw_grid()
         self.after(200, self.auto_run)
 
