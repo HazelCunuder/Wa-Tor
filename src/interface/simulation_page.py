@@ -20,16 +20,50 @@ class SimulationPage(tk.Frame):
         widget_frame = tk.Frame(self)
         widget_frame.grid(row=0, column=1, padx=50)
         
-        self.parametrage_button = tk.Button(widget_frame, text="Settings", command=lambda: self.controller.show_page("SettingPage"))
-        self.parametrage_button.pack(pady=10)
-        self.next_button = tk.Button(widget_frame, text="Next step", command=self.next_step)
-        self.next_button.pack(pady=5)
-        self.run_simulation_button = tk.Button(widget_frame, text="Start", command=self.run_simulation)
-        self.run_simulation_button.pack(pady=5)
-        self.reset_button = tk.Button(widget_frame, text="Reset", command=self.reset_simulation)
-        self.reset_button.pack(pady=5)
-        self.info_simulation = tk.Label(widget_frame, text="")
-        self.info_simulation.pack(pady=10)
+        self.parametrage_button = tk.Button(
+                widget_frame,
+                text="Settings",
+                command=lambda: self.controller.show_page("SettingPage"),
+                bg="#217CA0",
+                fg="#f5e0dc",
+                activebackground="#05668D",
+                activeforeground="#f5e0dc",
+                relief="raised"
+            )
+        self.parametrage_button.pack(pady=10, fill="x")
+        
+        self.run_simulation_button = tk.Button(
+            widget_frame,
+            text="Start",
+            command=self.run_simulation,
+            bg="#217CA0",
+            fg="#f5e0dc",
+            activebackground="#05668D",
+            activeforeground="#f5e0dc",
+            relief="raised"
+        )
+        self.run_simulation_button.pack(pady=5, fill="x")
+
+        self.reset_button = tk.Button(
+            widget_frame,
+            text="Reset",
+            command=self.reset_simulation,
+            bg="#217CA0",
+            fg="#f5e0dc",
+            activebackground="#05668D",
+            activeforeground="#f5e0dc",
+            relief="raised"
+        )
+        self.reset_button.pack(pady=5, fill="x")
+
+        self.info_simulation = tk.Label(
+            widget_frame,
+            text="",
+            bg="#217CA0",
+            fg="#cdd6f4",
+            justify="left"
+        )
+        self.info_simulation.pack(pady=10, anchor="w")
 
         self.draw_grid()
 
