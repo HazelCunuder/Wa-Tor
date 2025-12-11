@@ -35,14 +35,15 @@ class SimulationPage(tk.Frame):
                 y2 = y1 + self.cell_size
 
                 entity = world.grid[y][x]
-                
+
+
                 if entity is None:
                     color = "black"
-                elif isinstance(entity, Tuna):
+                elif isinstance(entity, Tuna) and entity.is_alive:
                     color = "blue"
-                elif isinstance(entity, Shark):
+                elif isinstance(entity, Shark) and entity.is_alive:
                     color = "red"
-                elif isinstance(entity, Megalodon):
+                elif isinstance(entity, Megalodon) and entity.is_alive:
                     color = "purple"
                 else:
                     color = "black"
