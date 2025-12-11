@@ -14,12 +14,15 @@ class InterfaceGraphique(tk.Tk):
         self.config_wator.grid_height = 50
         self.config_wator.nb_tuna = 500
         self.config_wator.nb_shark = 125
-        self.config_wator.nb_megalodon = 0
+        self.config_wator.nb_megalodon = 1
         self.config_wator.time_breed_tuna = 4
         self.config_wator.times_breed_shark = 13
         self.config_wator.energy_shark = 3
         self.config_wator.recovery_energy_shark = 2
-
+        self.config_wator.times_breed_megalodon = 10
+        self.config_wator.energy_megalodon = 5
+        self.config_wator.recovery_energy_megalodon = 1
+        
         self.world = World(self.config_wator)
         self.world.randomly_place_fishes(nb_sharks = self.config_wator.nb_shark, nb_tunas = self.config_wator.nb_tuna, nb_megalodons = self.config_wator.nb_megalodon)
         self.simulation = Simulation(self.world)
