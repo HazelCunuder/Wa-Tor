@@ -8,7 +8,6 @@ from simulation_graph import SimulationGraph
 config = ConfigurationWator()
 
 save = DataManager()
-
 save.create_tables()
 
 planet: World = World(config)

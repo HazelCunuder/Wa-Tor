@@ -71,21 +71,39 @@ class Simulation:
             print("\n")
             self.world.world_cycle()
             self.print_grid_ascii()
-        """ 
+            
             if self.world.chronons % 10 == 0:
-                self.chronon_history.append((world.chronons, len(world.tunas), len(world.sharks), len(world.megalodons)))
-                
-        if self.world.chronons % 10 != 0:
-            self.chronon_history.append((world.chronons,len(world.tunas), len(world.sharks), len(world.megalodons)))
-        """
-        print(f"Number of Megalodons left: {len(world.megalodons)}")
-        print(f"Number of sharks left: {len(world.sharks)}")
-        print(f"Number of tunas left: {len(world.tunas)}")
-        print(f"Total Chronons: {world.chronons}")
-        """
-        sim_id = self.save.save_sim_data(self.get_results())
-        self.save.save_chronon_data(sim_id, self.chronon_history)
-        """
+                self.chronon_history.append((
+                    self.world.chronons,
+                    len(self.world.tunas),
+                    len(self.world.sharks),
+                    len(self.world.megalodons)
+                ))
+            
+            self.graph.update(
+                self.world.chronons,
+                len(self.world.tunas),
+                len(self.world.sharks),
+                len(self.world.megalodons)
+            )
+            
+            print(f"Number of sharks left: {len(self.world.sharks)}")
+            print(f"Number of tunas left: {len(self.world.tunas)}")
+            print(f"Total Chronons: {self.world.chronons}")
+            
+            self.graph.root.after(100, self._simulation_step)
+        else:
+            if self.world.chronons % 10 != 0:
+                self.chronon_history.append((
+                    self.world.chronons,
+                    len(self.world.tunas),
+                    len(self.world.sharks),
+                    len(self.world.megalodons)
+                ))
+            
+            sim_id = self.save.save_sim_data(self.get_results())
+            self.save.save_chronon_data(sim_id, self.chronon_history) 
+        
     def print_grid_ascii(self):
         """
         Print the current world grid to console with ASCII borders.
