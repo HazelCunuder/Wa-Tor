@@ -3,7 +3,7 @@ from simulation import Simulation
 from utils.configuration import ConfigurationWator
 from simulation_graph import SimulationGraph
 from interface_graphique import InterfaceGraphique
-
+from utils.data_manager import DataManager
 
 def ask_mode() -> str:
     while True:
@@ -42,7 +42,8 @@ def run_terminal_mode() -> None:
 
 def main() -> None:
     mode = ask_mode()
-
+    data_manager = DataManager()
+    data_manager.create_tables()
     if mode == "2":
         run_gui_mode()
     else:

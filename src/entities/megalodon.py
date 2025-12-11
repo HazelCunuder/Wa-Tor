@@ -55,9 +55,13 @@ class Megalodon(Fish):
             return preys 
         elif empty_box:
             self.energy -= 1
+            if self.energy <= 0:
+                self.is_alive = False
             return empty_box  
         else:
             self.energy -= 1
+            if self.energy <= 0:
+                self.is_alive = False
             return []
     
     def choose_move(self, available_moves: list[tuple[int, int]], grid: list[list[Fish | None]]) -> tuple[int, int]:
