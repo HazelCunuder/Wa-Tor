@@ -5,21 +5,24 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 class SimulationGraph:
     def __init__(self) -> None:
         """
-        Initialize the simulation graph using Tkinter and Matplotlib.
+        Initialize the simulation graph with Tkinter and Matplotlib.
+        Sets up the main window, figure, axes, and line objects for tunas, sharks, and megalodons.
+        Also initializes lists to store chronon and population data.
+        Also configures the visual appearance of the graph.
         """
         
         self.root = tk.Tk()
         self.root.title("Population Graph")
         self.root.configure(bg="#05668D")
-        
+
         self.fig = Figure(figsize=(8, 6), facecolor="#217CA0")
         self.ax = self.fig.add_subplot(111, facecolor="#217CA0")
-        
+
         self.chronons = []
         self.tunas = []
         self.sharks = []
         self.megalodons = []
-        
+
         self.line_tunas, = self.ax.plot([], [], label="Tunas", color="#00D9FF", linewidth=2.5)
         self.line_sharks, = self.ax.plot([], [], label="Sharks", color="#FF4444", linewidth=2.5)
         self.line_megalodons, = self.ax.plot([], [], label="Megalodons", color="#00FF88", linewidth=2.5)
