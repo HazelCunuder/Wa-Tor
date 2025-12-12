@@ -133,40 +133,16 @@ class SimulationPage(tk.Frame):
     def auto_run(self):
         if not self.is_running:
             return
-        elif len(self.controller.world.tunas) == 0 or len(self.controller.world.sharks) == 0 or len(self.controller.world.megalodons) == 0:
-            self.is_running = False
-            self.run_simulation_button.config(text="Start")
+        self.controller.world.world_cycle()
+        self.controller.simulation.graph.update(
+            self.controller.world.chronons,
+            len(self.controller.world.tunas),
+            len(self.controller.world.sharks),
+            len(self.controller.world.megalodons)
+        )
 
-            if self.controller.world.chronons % 10 != 0:
-                self.controller.simulation.chronon_history.append((
-                    self.controller.world.chronons,
-                    len(self.controller.world.tunas),
-                    len(self.controller.world.sharks),
-                    len(self.controller.world.megalodons)
-                ))
-
-            sim_id = self.controller.simulation.save.save_sim_data(self.controller.simulation.get_results())
-            self.controller.simulation.save.save_chronon_data(sim_id, self.controller.simulation.chronon_history)           
-            return
-        else:
-            self.controller.world.world_cycle()
-            self.controller.simulation.graph.update(
-                self.controller.world.chronons,
-                len(self.controller.world.tunas),
-                len(self.controller.world.sharks),
-                len(self.controller.world.megalodons)
-            )
-
-            if self.controller.world.chronons % 10 == 0:
-                self.controller.simulation.chronon_history.append((
-                    self.controller.world.chronons,
-                    len(self.controller.world.tunas),
-                    len(self.controller.world.sharks),
-                    len(self.controller.world.megalodons)
-                ))  
-                
-            self.draw_grid()
-            self.after(200, self.auto_run)
+        self.draw_grid()
+        self.after(200, self.auto_run)
 
     def resize_simulation(self, event):
         self.canvas_width = event.width
