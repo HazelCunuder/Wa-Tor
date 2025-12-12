@@ -155,7 +155,7 @@ class SimulationPage(tk.Frame):
                 f"Chronon  : {world.chronons}\n"
                 f"Tunas    : {len(world.tunas)}\n"
                 f"Sharks   : {len(world.sharks)}\n"
-                f"Megalods : {len(world.megalodons)}"
+                f"Megalodons : {len(world.megalodons)}"
             )
         )
 
