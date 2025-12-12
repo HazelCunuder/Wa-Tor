@@ -33,42 +33,42 @@ class SettingPage(tk.Frame):
 
         tk.Label(frame, text="Enter the grid's width:", bg="#217CA0", fg="#f5e0dc").grid(row=0, column=0, sticky="w", pady=5)
         self.entry_width = tk.Entry(frame, width=5, bg="#217CA0", fg="#f5e0dc", justify="center")
-        self.entry_width.insert(0, "10")
+        self.entry_width.insert(0, "50")
         self.entry_width.grid(row=0, column=1, padx=10)
 
         tk.Label(frame, text="Enter the grid's height: ", bg="#217CA0", fg="#f5e0dc").grid(row=1, column=0, sticky="w", pady=5)
         self.entry_height = tk.Entry(frame, width=5, bg="#217CA0", fg="#f5e0dc", justify="center")
-        self.entry_height.insert(0, "10")
+        self.entry_height.insert(0, "50")
         self.entry_height.grid(row=1, column=1, padx=10)
 
         tk.Label(frame, text="Enter the number of tunas in the world: ", bg="#217CA0", fg="#f5e0dc").grid(row=2, column=0, sticky="w", pady=5)
         self.entry_tuna = tk.Entry(frame, width=5, bg="#217CA0", fg="#f5e0dc", justify="center")
-        self.entry_tuna.insert(0, "25")
+        self.entry_tuna.insert(0, "500")
         self.entry_tuna.grid(row=2, column=1, padx=10)
 
         tk.Label(frame, text="Enter the number of sharks in the world: ", bg="#217CA0", fg="#f5e0dc").grid(row=3, column=0, sticky="w", pady=5)
         self.entry_shark = tk.Entry(frame, width=5, bg="#217CA0", fg="#f5e0dc", justify="center")
-        self.entry_shark.insert(0, "5")
+        self.entry_shark.insert(0, "125")
         self.entry_shark.grid(row=3, column=1, padx=10)
 
         tk.Label(frame, text="Enter the number of megalodons in the world: ", bg="#217CA0", fg="#f5e0dc").grid(row=4, column=0, sticky="w", pady=5)
         self.entry_mega = tk.Entry(frame, width=5, bg="#217CA0", fg="#f5e0dc", justify="center")
-        self.entry_mega.insert(0, "1")
+        self.entry_mega.insert(0, "20")
         self.entry_mega.grid(row=4, column=1, padx=10)
 
         tk.Label(frame, text="Choose the breed cooldown for tunas: ", bg="#217CA0", fg="#f5e0dc").grid(row=5, column=0, sticky="w", pady=5)
         self.entry_breed_tuna = tk.Entry(frame, width=5, bg="#217CA0", fg="#f5e0dc", justify="center")
-        self.entry_breed_tuna.insert(0, "3")
+        self.entry_breed_tuna.insert(0, "4")
         self.entry_breed_tuna.grid(row=5, column=1, padx=10)
 
         tk.Label(frame, text="Choose the breed cooldown for sharks: ", bg="#217CA0", fg="#f5e0dc").grid(row=6, column=0, sticky="w", pady=5)
         self.entry_breed_shark = tk.Entry(frame, width=5, bg="#217CA0", fg="#f5e0dc", justify="center")
-        self.entry_breed_shark.insert(0, "5")
+        self.entry_breed_shark.insert(0, "13")
         self.entry_breed_shark.grid(row=6, column=1, padx=10)
 
         tk.Label(frame, text="Choose the breed cooldown for megalodons: ", bg="#217CA0", fg="#f5e0dc").grid(row=7, column=0, sticky="w", pady=5)
         self.entry_breed_mega = tk.Entry(frame, width=5, bg="#217CA0", fg="#f5e0dc", justify="center")
-        self.entry_breed_mega.insert(0, "10")
+        self.entry_breed_mega.insert(0, "20")
         self.entry_breed_mega.grid(row=7, column=1, padx=10)
 
         tk.Label(frame, text="Enter the initial energy for the sharks: ", bg="#217CA0", fg="#f5e0dc").grid(row=8, column=0, sticky="w", pady=5)
@@ -99,7 +99,7 @@ class SettingPage(tk.Frame):
             text="✅ Apply and return",
             command=self.apply_and_back,
             bg="#217CA0",
-            fg="#05668D",
+            fg="#f5e0dc",
             font=("Arial", 12, "bold"),
             padx=20,
             pady=5,
