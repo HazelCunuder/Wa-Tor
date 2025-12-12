@@ -11,7 +11,7 @@ class SimulationPage(tk.Frame):
         self.controller = controller
         self.cell_size = 10
         self.is_running = False
-
+        self.after_id = None
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=0)
         self.grid_rowconfigure(1, weight=1)
@@ -171,8 +171,7 @@ class SimulationPage(tk.Frame):
 
     def reset_simulation(self):
         self.controller.create_world()
-        self.is_running = False
-        self.run_simulation_button.config(text="▶ Start")
+        self.stop_auto_run()
         self.draw_grid()
 
     def run_simulation(self):
@@ -182,7 +181,7 @@ class SimulationPage(tk.Frame):
             self.run_simulation_button.config(text="⏸ Stop")
             self.auto_run()
         else:
-            self.run_simulation_button.config(text="▶ Start")
+            self.stop_auto_run()
 
     def auto_run(self):
         if not self.is_running:
@@ -191,8 +190,7 @@ class SimulationPage(tk.Frame):
             len(self.controller.world.tunas) == 0
             or len(self.controller.world.sharks) == 0 or len(self.controller.world.megalodons) == 0
         ):
-            self.is_running = False
-            self.run_simulation_button.config(text="▶ Start")
+            self.stop_auto_run()
             return
         else:
             self.controller.world.world_cycle()
@@ -203,7 +201,18 @@ class SimulationPage(tk.Frame):
                 len(self.controller.world.megalodons)
             )
             self.draw_grid()
-            self.after(200, self.auto_run)
+            self.after_id = self.after(200, self.auto_run)
+
+    def stop_auto_run(self):
+        self.is_running = False
+        self.run_simulation_button.config(text="▶ Start")
+
+        if self.after_id is not None:
+            try:
+                self.after_cancel(self.after_id)
+            except:
+                pass
+            self.after_id = None
 
     def resize_simulation(self, event):
         self.canvas_width = event.width
